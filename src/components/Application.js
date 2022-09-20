@@ -33,7 +33,11 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList days={days} day={scheduledDay} setDay={setScheduledDay} />
+          <DayList
+            days={days}
+            value={scheduledDay}
+            onChange={setScheduledDay}
+          />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
