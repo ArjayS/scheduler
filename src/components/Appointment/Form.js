@@ -25,7 +25,7 @@ export default function Form(props) {
         <form autoComplete="off" onSubmit={(event) => event.preventDefault()}>
           <input
             className="appointment__create-input text--semi-bold"
-            name={student}
+            name="Student Name"
             type="text"
             placeholder="Enter Student Name"
             onChange={(event) => setStudentName(event.target.value)}
@@ -35,7 +35,7 @@ export default function Form(props) {
         <InterviewerList
           /* your code goes here */
           interviewers={interviewers}
-          onChange={(event) => setInterviewerId(event)}
+          onChange={setInterviewerId}
           value={interviewerId}
         />
       </section>
@@ -44,7 +44,7 @@ export default function Form(props) {
           <Button danger onClick={cancel}>
             Cancel
           </Button>
-          <Button confirm onClick={onSave}>
+          <Button confirm onClick={() => onSave(studentName, interviewerId)}>
             Save
           </Button>
         </section>
