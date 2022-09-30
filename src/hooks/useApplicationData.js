@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+const getSpotsForDay = (state, dayObjName) => {
+  return state.days
+    .find((day) => day.name === dayObjName)
+    .appointments.reduce((accumulator, currentValue) => {
+      return state.appointments[currentValue].interview
+        ? accumulator
+        : accumulator + 1;
+    }, 0);
+};
+
 export default function useApplicationData(props) {
   const [state, setState] = useState({
     day: "Monday",
@@ -27,38 +37,51 @@ export default function useApplicationData(props) {
       }));
     });
   }, []);
-
+  // console.log(state.days);
   const bookInterview = (id, interview) => {
     return axios.put(`api/appointments/${id}`, { interview }).then((res) => {
-      const appointment = {
-        ...state.appointments[id],
-        interview: { ...interview },
+      // console.log(id);
+      const updatedStateAppointment = {
+        ...state,
+        appointments: {
+          ...state.appointments,
+          [id]: {
+            ...state.appointments[id],
+            interview: { ...interview },
+          },
+        },
       };
 
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment,
-      };
+      const days = state.days.map((dayObj) => ({
+        ...dayObj,
+        spots: getSpotsForDay(updatedStateAppointment, dayObj.name),
+      }));
 
-      setState({ ...state, appointments });
+      setState({ ...updatedStateAppointment, days });
     });
   };
 
   const cancelInterview = (id) => {
     return axios.delete(`api/appointments/${id}`).then((res) => {
-      console.log(id);
+      // console.log(id);
 
-      const appointment = {
-        ...state.appointments[id],
-        interview: null,
+      const updatedStateAppointment = {
+        ...state,
+        appointments: {
+          ...state.appointments,
+          [id]: {
+            ...state.appointments[id],
+            interview: null,
+          },
+        },
       };
 
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment,
-      };
+      const days = state.days.map((dayObj) => ({
+        ...dayObj,
+        spots: getSpotsForDay(updatedStateAppointment, dayObj.name),
+      }));
 
-      setState({ ...state, appointments });
+      setState({ ...updatedStateAppointment, days });
     });
   };
 
