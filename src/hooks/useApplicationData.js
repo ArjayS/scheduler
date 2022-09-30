@@ -1,25 +1,20 @@
-import { useState, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import axios from "axios";
-
-const getSpotsForDay = (state, dayObjName) => {
-  return state.days
-    .find((day) => day.name === dayObjName)
-    .appointments.reduce((accumulator, currentValue) => {
-      return state.appointments[currentValue].interview
-        ? accumulator
-        : accumulator + 1;
-    }, 0);
-};
+import reducer, {
+  SET_DAY,
+  SET_APPLICATION_DATA,
+  SET_INTERVIEW,
+} from "../reducer/reducer";
 
 export default function useApplicationData(props) {
-  const [state, setState] = useState({
+  const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
     days: [],
     appointments: {},
     interviewers: {},
   });
 
-  const setDay = (day) => setState({ ...state, day });
+  const setDay = (day) => dispatch({ type: SET_DAY, day: day });
 
   useEffect(() => {
     const daysAPI = axios.get("/api/days");
@@ -29,59 +24,24 @@ export default function useApplicationData(props) {
     const allPromises = [daysAPI, appointmentsAPI, interviewersAPI];
 
     Promise.all(allPromises).then((promises) => {
-      setState((prev) => ({
-        ...state,
+      dispatch({
+        type: SET_APPLICATION_DATA,
         days: promises[0].data,
         appointments: promises[1].data,
         interviewers: promises[2].data,
-      }));
+      });
     });
   }, []);
-  // console.log(state.days);
+
   const bookInterview = (id, interview) => {
     return axios.put(`api/appointments/${id}`, { interview }).then((res) => {
-      // console.log(id);
-      const updatedStateAppointment = {
-        ...state,
-        appointments: {
-          ...state.appointments,
-          [id]: {
-            ...state.appointments[id],
-            interview: { ...interview },
-          },
-        },
-      };
-
-      const days = state.days.map((dayObj) => ({
-        ...dayObj,
-        spots: getSpotsForDay(updatedStateAppointment, dayObj.name),
-      }));
-
-      setState({ ...updatedStateAppointment, days });
+      dispatch({ type: SET_INTERVIEW, id, interview });
     });
   };
 
   const cancelInterview = (id) => {
     return axios.delete(`api/appointments/${id}`).then((res) => {
-      // console.log(id);
-
-      const updatedStateAppointment = {
-        ...state,
-        appointments: {
-          ...state.appointments,
-          [id]: {
-            ...state.appointments[id],
-            interview: null,
-          },
-        },
-      };
-
-      const days = state.days.map((dayObj) => ({
-        ...dayObj,
-        spots: getSpotsForDay(updatedStateAppointment, dayObj.name),
-      }));
-
-      setState({ ...updatedStateAppointment, days });
+      dispatch({ type: SET_INTERVIEW, id, interview: null });
     });
   };
 
