@@ -19,6 +19,8 @@ export default function Form(props) {
     onCancel();
   };
 
+  // const interviewersString = interviewers.toString() //Testing prop-types
+
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
