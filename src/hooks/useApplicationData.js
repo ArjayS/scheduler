@@ -15,7 +15,7 @@ export default function useApplicationData(props) {
   });
 
   const setDay = (day) => dispatch({ type: SET_DAY, day: day });
-
+  console.log("useApplicationData!");
   useEffect(() => {
     const daysAPI = axios.get("/api/days");
     const appointmentsAPI = axios.get("/api/appointments");
@@ -23,12 +23,13 @@ export default function useApplicationData(props) {
 
     const allPromises = [daysAPI, appointmentsAPI, interviewersAPI];
 
-    Promise.all(allPromises).then((promises) => {
+    Promise.all(allPromises).then((all) => {
+      console.log(`promise.all`, all);
       dispatch({
         type: SET_APPLICATION_DATA,
-        days: promises[0].data,
-        appointments: promises[1].data,
-        interviewers: promises[2].data,
+        days: all[0].data,
+        appointments: all[1].data,
+        interviewers: all[2].data,
       });
     });
   }, []);
