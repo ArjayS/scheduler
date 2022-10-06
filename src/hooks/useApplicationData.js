@@ -4,7 +4,7 @@ import reducer, {
   SET_DAY,
   SET_APPLICATION_DATA,
   SET_INTERVIEW,
-} from "../reducer/reducer";
+} from "../reducers/application";
 
 export default function useApplicationData(props) {
   const [state, dispatch] = useReducer(reducer, {
