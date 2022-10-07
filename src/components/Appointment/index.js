@@ -37,7 +37,7 @@ export default function Appointment(props) {
     }
 
     const bookPromise = bookInterview(id, interview);
-    console.log(bookPromise);
+
     bookPromise
       .then(() => {
         transition(SHOW);

@@ -57,7 +57,6 @@ export default {
   defaults: { baseURL: "" },
 
   get: jest.fn((url) => {
-    // console.log("mock axios.get", url);
     if (url === "/api/days") {
       return Promise.resolve({
         status: 200,

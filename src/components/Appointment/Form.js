@@ -20,8 +20,6 @@ export default function Form(props) {
     onCancel();
   };
 
-  // const interviewersString = interviewers.toString() //Testing prop-types
-
   function validate() {
     if (studentName === "") {
       setError("Student name cannot be blank");
