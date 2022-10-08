@@ -36,10 +36,16 @@ npm run storybook
 
 ![GIF demonstration of Booking an Interview](https://github.com/ArjayS/scheduler/blob/master/image/InterviewSchedulerBookingAnInterviewGIF.gif)
 
+_Gif demonstration of booking an appointment / interview_
+
 ### Editing an Interview
 
 ![GIF demonstration of Editing an Interview](https://github.com/ArjayS/scheduler/blob/master/image/InterviewSchedulerEditingAnInterviewGIF.gif)
 
+_Gif demonstration of editing an appointment / interview. Also, running one of the integration error testing when save is clicked first and then properly booking an interview_
+
 ### Deleting an Interview
 
 ![GIF demonstration of Deleting an Interview](https://github.com/ArjayS/scheduler/blob/master/image/InterviewSchedulerDeletingAnInterviewGIF.gif)
+
+_Gif demonstration of deleting an appointment / interview_
