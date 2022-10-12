@@ -15,7 +15,8 @@ export default function useApplicationData(props) {
   });
 
   const setDay = (day) => dispatch({ type: SET_DAY, day: day });
-  
+
+  // using axios.get inside useEffect hook to obtain data from the running scheduler-api
   useEffect(() => {
     const daysAPI = axios.get("/api/days");
     const appointmentsAPI = axios.get("/api/appointments");
@@ -33,12 +34,14 @@ export default function useApplicationData(props) {
     });
   }, []);
 
+  // bookInterview takes in an id and interview arguments to create a new appointment and saving it in the database using axios.put and then as a resonse it updates the front-end
   const bookInterview = (id, interview) => {
     return axios.put(`api/appointments/${id}`, { interview }).then((res) => {
       dispatch({ type: SET_INTERVIEW, id, interview });
     });
   };
 
+  //cancelInterview only takes in an id to permanently delete that specific id in the database using axios.delete and then as a response it updates the front-end
   const cancelInterview = (id) => {
     return axios.delete(`api/appointments/${id}`).then((res) => {
       dispatch({ type: SET_INTERVIEW, id, interview: null });
