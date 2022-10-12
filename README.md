@@ -8,6 +8,11 @@ Interview Scheduler is a single-page application (SPA) that allows users to book
 
 Install dependencies with `npm install`.
 
+## Scheduler-API Repo
+
+- Please see the link for the [Scheduler-API Repo provided by Lighthouse](https://github.com/lighthouse-labs/scheduler-api)
+- Please see the link for the [My Scheduler-API Repo cloned from Lighthouse](https://github.com/ArjayS/scheduler-api)
+
 ## Running Webpack Development Server
 
 ```sh
